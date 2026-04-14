@@ -2,6 +2,8 @@ package Model;
 
 import Services.*;
 
+import java.util.Date;
+
 public class Program {
     public static void main(String[] args) {
 
@@ -23,23 +25,30 @@ public class Program {
             Avion avion = new Avion("Boeing 737", 100, comp);
 
             //  VOL
+
+            Date dateDepart = new Date();   // date actuelle
+            Date heureDepart = new Date();  // heure actuelle
+
             Vol v = new Vol(
                     "Montreal",
                     "Paris",
-                    "2026-05-01",
-                    "10:00",
+                    dateDepart,
+                    heureDepart,
                     "PREVU",
                     avion,
                     800,
                     5
             );
 
+
             volService.ajouterVol(v);
 
             //  RESERVATION
+
+            Date dateReservation = new Date(); // date actuelle
+
             Reservation r = new Reservation(
-                    1,
-                    "2026-04-13",
+                    dateReservation,
                     p,
                     v
             );

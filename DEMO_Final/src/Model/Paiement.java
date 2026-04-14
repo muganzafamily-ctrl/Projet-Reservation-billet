@@ -15,14 +15,21 @@ public class Paiement {
     public static final String STATUT_REMBOURSE = "Remboursé";
     public static final String STATUT_ANNULE = "Annulé";
 
-    private static int compteurId = 1;
+    // Constructeur
+    public Paiement(double montant, String methode, Date datePaiement)
+            throws InvalidDataException {
 
-    public Paiement(double montant, String methode, Date datePaiement) throws InvalidDataException {
-        this.id = compteurId++;
         setMontant(montant);
         setMethode(methode);
         setDatePaiement(datePaiement != null ? datePaiement : new Date());
         this.statut = STATUT_EN_ATTENTE;
+    }
+
+
+    public void setId(int id) throws InvalidDataException {
+        if (id <= 0)
+            throw new InvalidDataException("ID paiement invalide");
+        this.id = id;
     }
 
     public int getId() { return id; }
@@ -30,14 +37,14 @@ public class Paiement {
     public double getMontant() { return montant; }
     public void setMontant(double montant) throws InvalidDataException {
         if (montant <= 0)
-            throw new InvalidDataException("Montant de paiement invalide");
+            throw new InvalidDataException("Montant invalide");
         this.montant = montant;
     }
 
     public String getMethode() { return methode; }
     public void setMethode(String methode) throws InvalidDataException {
         if (methode == null || methode.trim().isEmpty())
-            throw new InvalidDataException("Méthode de paiement invalide");
+            throw new InvalidDataException("Méthode invalide");
         this.methode = methode.trim();
     }
 
@@ -46,26 +53,14 @@ public class Paiement {
     public Date getDatePaiement() { return datePaiement; }
     public void setDatePaiement(Date datePaiement) throws InvalidDataException {
         if (datePaiement == null)
-            throw new InvalidDataException("Date de paiement invalide");
+            throw new InvalidDataException("Date invalide");
         this.datePaiement = datePaiement;
     }
 
     public void payer() throws InvalidDataException {
         if (STATUT_PAYE.equals(statut))
-            throw new InvalidDataException("Le paiement est déjà effectué");
+            throw new InvalidDataException("Déjà payé");
         this.statut = STATUT_PAYE;
-    }
-
-    public void rembourser() throws InvalidDataException {
-        if (!STATUT_PAYE.equals(statut))
-            throw new InvalidDataException("Remboursement impossible : paiement non payé");
-        this.statut = STATUT_REMBOURSE;
-    }
-
-    public void annuler() throws InvalidDataException {
-        if (!STATUT_EN_ATTENTE.equals(statut))
-            throw new InvalidDataException("Annulation impossible");
-        this.statut = STATUT_ANNULE;
     }
 
     @Override
