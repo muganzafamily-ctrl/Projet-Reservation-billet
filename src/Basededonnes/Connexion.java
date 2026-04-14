@@ -19,12 +19,12 @@ public class Connexion {
 
         try {
 
-            // 🔥 réutilisation connexion
+            //  réutilisation connexion
             if (connection == null || connection.isClosed()) {
 
                 connection = DriverManager.getConnection(URL, utilisateur, motDePasse);
 
-                System.out.println("Connexion réussie à airline_db ✅");
+                System.out.println("Connexion réussie à airline_db");
             }
 
         } catch (Exception e) {
